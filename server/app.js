@@ -4,7 +4,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
+
+// Require middleware
 const middlewares = require('./middlewares');
+const booksRouter = require('./routes/books');
+const shelvesRouter = require('./routes/shelves');
 
 // Create app
 const app = express();
@@ -17,7 +21,7 @@ mongoose.connect(url, {
 });
 
 
-// App middlewares
+// App middleware
 app.use(cors({
   origin: process.env.CORS_ORIGIN
 }));
@@ -31,8 +35,10 @@ app.get('/', (req, res) => {
 })
 
 // Routers middleware
+app.use('/books', booksRouter);
+app.use('/shelves', shelvesRouter);
 
-// Error handling middlewares
+// Error handling middleware
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
 

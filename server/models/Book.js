@@ -17,18 +17,21 @@ const bookSchema = new Schema({
     type: String,
     required: true
   },
-  read: {
-    type: Boolean,
-    default: false
+  readStatus: {
+    type: String,
+    enum: ['read', 'notRead', 'nowRead'],
+    default: 'notRead'
   },
-  dateStarted: Date,
-  dateFinished: Date,
-  rating: {
-    type: Number,
-    min: 0,
-    max: 5
-  },
-  review: String
+  reads: [{
+    dateStarted: Date,
+    dateFinished: Date,
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5
+    },
+    review: String
+  }]
 });
 
 const Book = mongoose.model('Book', bookSchema);

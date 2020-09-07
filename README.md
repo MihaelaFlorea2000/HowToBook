@@ -4,7 +4,8 @@
 * Series - Text
 * Description - Text
 * Cover - ImageURL
-* Read - Boolean - false
+* ReadStatus - String - [Read Unread Currently]
+* Reads - Array of obj
   * Date Started - DateTime - now
   * Date Finished - DateTime - now
   * Rating - Number 1-5 - 0
@@ -23,7 +24,8 @@
   * Create a new book
 * [x] PATCH /books/:bookId/
   * Edit a book - change the initial info
-                - mark as read and add extra info
+* [x] PATCH /books/:bookId/:readStatus
+  * Edit a book - mark as read / currently reading and add reviews
 * [x] DELETE /books/:bookId
   * Delete a book
 
@@ -35,6 +37,7 @@
   * Create a new shelf
 * [x] PATCH /shelves/:shelfId/
   * Edit a shelf - change shelf details
-                 - add new book to shelf
+* [x] PATCH /shelves/:shelfId/add/:bookId
+  * Edit a shelf - add new book to shelf
 * [x] DELETE /shelves/:shelfId
   * Delete a shelf

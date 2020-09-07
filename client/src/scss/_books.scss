@@ -1,0 +1,54 @@
+.books {
+  text-align: center;
+  background-color: $veryLightGray;
+}
+
+.book {
+
+  &__grid {
+    @include breakpoint-up(medium) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  }
+
+  &__item {
+    border: 1px solid $grayishBlue;
+    background-color: $white;
+    margin: 1.875rem; // 30px
+    transition: all 200ms ease-in-out;
+
+    &:hover {
+      border: 1px solid $darkBlue;
+      box-shadow: 11px 10px 19px -6px #777;
+    }
+
+    @include breakpoint-up(medium) {// 2 cols
+      flex: 0 0 46%;
+      margin: 0.625rem; // 10px
+    }
+
+    @include breakpoint-up(large) {// 4 cols
+      flex: 0 0 20%;
+      margin: 1.25rem; // 0 20px
+    }
+
+  }
+
+  &__cover {
+    width: 100%;
+    height: auto;
+    margin: 0 auto 10px auto;
+  }
+
+  &__title {
+    margin-bottom: 10px;
+    font-size: 1.5625rem; // 25px
+  }
+
+  &__author {
+    margin-top: 0;
+  }
+
+}

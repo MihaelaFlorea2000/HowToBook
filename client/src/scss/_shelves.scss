@@ -1,0 +1,66 @@
+.shelves {
+  text-align: center;
+  background-color: $veryLightGray;
+}
+
+.shelf {
+
+  &__item {
+    border: 1px solid $grayishBlue;
+    background-color: $white;
+    margin: 1.875rem; // 30px
+    transition: all 200ms ease-in-out;
+    display: flex;
+    height: 100px;
+
+    &:hover {
+      border: 1px solid $darkBlue;
+      box-shadow: 11px 10px 19px -6px #777;
+    }
+
+    @include breakpoint-up(medium) {
+      height: 200px;
+    }
+
+  }
+
+  &__image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 50%;
+
+    img {
+      flex-shrink: 0;
+      min-width: 100%;
+      min-height: 100%;
+    }
+    
+  }
+
+  &__info {
+    text-align: center;
+    width: 50%;
+    padding: 13px;
+    position: relative;
+    
+
+    @include breakpoint-up(medium) {
+      padding: 30px;
+      text-align: left;
+    }
+  }
+
+  &__number {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+  
+    @include breakpoint-up(medium) {
+      position: relative;
+    }
+  }
+}
