@@ -93,6 +93,13 @@ a, a:visited, a:hover {
   text-decoration: none;
 }
 
+.read-more {
+  color: $hotPink;
+  text-decoration: underline;
+  display: block;
+  cursor: pointer;
+}
+
 // Forms 
 
 form {
@@ -110,7 +117,9 @@ form {
   }
 }
 
-input[type=text], textarea {
+input[type=text], 
+textarea, 
+input[type=date] {
   width: 100%;
   border: 2px solid $grayishBlue;
   border-radius: 4px;
@@ -119,9 +128,12 @@ input[type=text], textarea {
   padding: 8px;
   transition: all 200ms ease-in-out;
   font-family: 'Open Sans', sans-serif;
+  background-color: $white;
 }
 
-input[type=text]:focus, textarea:focus{
+input[type=text]:focus,
+textarea:focus,
+input[type=date]:focus{
   box-shadow: 0 0 8px 0 $grayishBlue;
 }
 

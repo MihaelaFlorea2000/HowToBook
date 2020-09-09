@@ -1,0 +1,153 @@
+.book {
+  position: relative;
+  text-align: center;
+
+  &__cover {
+    width: 40%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    padding: 20px 0;
+  }
+
+  &__title {
+
+    &::after {
+      height: 0;
+      margin: 0;
+    }
+  } 
+
+  &__series {
+    margin-bottom: 1rem;
+  }
+  
+  &__author {
+    color: $darkBlue;
+  }
+
+  &__form {
+    display: grid;
+    grid-template-columns: 90px auto;
+    grid-column-gap: 5px;
+    grid-row-gap: 10px;
+    justify-content: center;
+    align-content: center;
+    height: 500px;
+    
+
+    input[type="text"] {
+      padding: 5px;
+    }
+
+    label {
+      font-size: $font-small;
+      margin: auto 0;
+    }
+
+    textarea {
+      grid-column: span 2;
+      margin-top: 0;
+    }
+
+    textarea::placeholder {
+      font-size: $font-small;
+    }
+  }
+
+  &__description,
+  &__status {
+    text-align: left;
+  }
+
+  &__subtitle {
+    text-transform: uppercase;
+    text-align: center;
+
+    &::after {
+      content: "";
+      width: 30%;
+      display: block;
+      height: 2px;
+      margin: 0.5rem auto;
+      background-color: $hotPink;
+    }
+  }
+
+  &__read {
+    display: grid;
+    border: 1px solid $grayishBlue;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 10px;
+    justify-content: center;
+    align-content: center;
+    padding: 30px;
+    margin: 1.875rem;
+
+    p {
+      margin: 0 0 2px 0;
+    }
+
+    &__date {
+      p:nth-child(2) {
+        font-size: 14px;
+        color: $darkBlue;
+        margin-top: 0;
+      }
+    }
+
+    &__rating {
+      grid-column: span 2;
+      border-top: 1px solid $hotPink;
+      border-bottom: 1px solid $hotPink;
+      padding: 20px;
+    }
+
+    &__review {
+      text-align: left;
+      grid-column: span 2;
+
+      p:nth-child(2) {
+        color: $darkBlue;
+      }
+    }
+  }
+
+  hr {
+    border: 1px solid #ddd;
+    margin: 2rem 0;
+  }
+}
+
+.blur {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  filter: blur(5px);
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  height: 266px;
+  border: 5px solid $darkBlue;
+}
+
+.overlay {
+  background-color: black;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: block;
+  height: 266px;
+  opacity: 0.6;
+}
+
+
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+}

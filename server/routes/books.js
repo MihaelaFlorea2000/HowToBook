@@ -93,7 +93,9 @@ router.patch('/:bookId/:readStatus', async (req, res, next) => {
       book.readStatus = readStatus;
       book.reads.push(read);
 
-    } else if (readStatus === 'nowRead'){ // Currently reading
+    } 
+    // Currently reading or to read
+    else if (readStatus === 'nowRead' || readStatus === 'notRead'){ 
       book.readStatus = readStatus;
 
     } else { // Invalid

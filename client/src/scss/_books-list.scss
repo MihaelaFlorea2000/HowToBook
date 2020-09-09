@@ -1,10 +1,9 @@
-.books {
+.books-list {
   text-align: center;
   background-color: $veryLightGray;
 }
 
-.book {
-
+.books {
   &__grid {
     @include breakpoint-up(medium) {
       display: flex;
@@ -24,14 +23,14 @@
       box-shadow: 11px 10px 19px -6px #777;
     }
 
-    @include breakpoint-up(medium) {// 2 cols
+    @include breakpoint-up(medium) { // 2 cols
       flex: 0 0 46%;
       margin: 0.625rem; // 10px
     }
 
-    @include breakpoint-up(large) {// 4 cols
+    @include breakpoint-up(large) { // 4 cols
       flex: 0 0 20%;
-      margin: 1.25rem; // 0 20px
+      margin: 1.25rem; // 20px
     }
 
   }
@@ -49,6 +48,6 @@
 
   &__author {
     margin-top: 0;
+    color: $darkBlue;
   }
-
 }

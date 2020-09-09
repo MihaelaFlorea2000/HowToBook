@@ -27,7 +27,7 @@ const bookSchema = new Schema({
     dateFinished: Date,
     rating: {
       type: Number,
-      min: 1,
+      min: 0,
       max: 5
     },
     review: String

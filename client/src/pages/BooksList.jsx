@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function BooksList() {
 
@@ -17,16 +18,18 @@ export default function BooksList() {
   }, [])
 
   return (
-    <section className="books">
+    <section className="books-list">
       <div className="container">
         <h1>My Books</h1>
-        <div className="book__grid">
+        <div className="books__grid">
           {books.map((book) => {
             return (
-              <div key={book._id} className="book__item">
-                <img className="book__cover" src={book.cover} alt={`${book.title} cover`} />
-                <h3 className="book__title">{book.title}</h3>
-                <p className="book__author">{book.author}</p>
+              <div key={book._id} className="books__item">
+                <Link to={`/books/${book._id}`}>
+                  <img className="books__cover" src={book.cover} alt={`${book.title} cover`} />
+                  <h3 className="books__title">{book.title}</h3>
+                  <p className="books__author">{book.author}</p>
+                </Link> 
               </div>
             )
           })}
