@@ -5,7 +5,7 @@ import AddButton from '../components/AddButton';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import ReadMore from '../components/ReadMore';
-
+import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Book(props) {
 
@@ -118,6 +118,8 @@ export default function Book(props) {
     })
 
     setShowForm(false);
+
+    window.location = `/books/${bookId}`
   }
 
   function formatDate(dateString){
@@ -131,6 +133,11 @@ export default function Book(props) {
     return `${month} ${day}, ${year}`
   }
 
+  // Delete this book 
+  async function deleteBook(bookId) {
+    await axios.delete(`http://localhost:5000/books/${bookId}`);
+    window.location = '/'
+  }
 
   return (
     <section className="book">
@@ -213,42 +220,47 @@ export default function Book(props) {
 
         <hr />
 
-        <div className="book__reviews">
-          <h3 className="book__subtitle">Book Reviews</h3>
-          {bookReads.map((read) => {
-            return (
-              <div className="book__read" key={read._id}>
-                <div className="book__read__date">
-                  <p>Started:</p>
-                  <p>{formatDate(read.dateStarted)}</p>
-                </div>
-                
-                <div className="book__read__date">
-                  <p>Finished:</p>
-                  <p>{formatDate(read.dateStarted)}</p>
-                </div>
+        {bookReads.length > 0 && 
 
-                <div className="book__read__rating">
-                  <p>Rating:</p>
-                  <StarRatings
-                    rating={read.rating}
-                    starRatedColor="#ff2e63"
-                    starHoverColor="#ff2e63"
-                    numberOfStars={read.rating}
-                    starDimension="25px"
-                    starSpacing="2px"
-                  />
+          <div className="book__reviews">
+            <h3 className="book__subtitle">Book Reviews</h3>
+            {bookReads.map((read) => {
+              return (
+                <div className="book__read" key={read._id}>
+                  <div className="book__read__date">
+                    <p>Started:</p>
+                    <p>{formatDate(read.dateStarted)}</p>
+                  </div>
+                  
+                  <div className="book__read__date">
+                    <p>Finished:</p>
+                    <p>{formatDate(read.dateStarted)}</p>
+                  </div>
+
+                  <div className="book__read__rating">
+                    <p>Rating:</p>
+                    <StarRatings
+                      rating={read.rating}
+                      starRatedColor="#ff2e63"
+                      starHoverColor="#ff2e63"
+                      numberOfStars={read.rating}
+                      starDimension="25px"
+                      starSpacing="2px"
+                    />
+                  </div>
+                  <div className="book__read__review">
+                    <p>Review:</p>
+                    <ReadMore maxCharacterCount={300}>
+                      {`${read.review}`}
+                    </ReadMore>
+                  </div>
                 </div>
-                <div className="book__read__review">
-                  <p>Review:</p>
-                  <ReadMore maxCharacterCount={300}>
-                    {`${read.review}`}
-                  </ReadMore>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        }
+        <ConfirmDialog onDelete={deleteBook} id={bookId} text="Book"/>
+
       </div>
     </section>
   );
