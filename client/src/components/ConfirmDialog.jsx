@@ -26,7 +26,11 @@ export default function ConfirmDialog(props) {
 
   return (
     <div>
-      <DeleteButton onOpen={handleClickOpen} text={props.text}/>
+      <DeleteButton 
+        onOpen={handleClickOpen} 
+        text={props.text}
+        fontSize={props.fontSize}
+      />
       <Dialog
         open={open}
         onClose={handleCloseNo}
@@ -36,7 +40,7 @@ export default function ConfirmDialog(props) {
         <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to permanently delete this book from your library?
+            {props.alertMessage}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

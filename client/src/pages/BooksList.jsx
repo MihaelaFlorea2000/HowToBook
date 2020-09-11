@@ -14,6 +14,7 @@ export default function BooksList() {
       const res = await axios.get('http://localhost:5000/books');
       
       setBooks(res.data);
+      console.log(res.data);
 
     })();
   }, [])
@@ -23,7 +24,6 @@ export default function BooksList() {
       await axios.delete(`http://localhost:5000/books/${bookId}`);
       window.location='/'
   }
-
 
   return (
     <section className="books-list">
@@ -38,7 +38,12 @@ export default function BooksList() {
                   <h3 className="books__title">{book.title}</h3>
                   <p className="books__author">{book.author}</p>
                 </Link> 
-                <ConfirmDialog onDelete={deleteBook} id={book._id} text="icon"/>
+                <ConfirmDialog 
+                  onDelete={deleteBook} 
+                  id={book._id} 
+                  text="icon"
+                  alertMessage={`Are you sure you want to permanently delete ${book.title} from your library? All ratings and reviews associated with this book witll be removed. This can't be undone.`}
+                />
               </div>
             )
           })}

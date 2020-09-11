@@ -39,5 +39,7 @@
   * Edit a shelf - change shelf details
 * [x] PATCH /shelves/:shelfId/add/:bookId
   * Edit a shelf - add new book to shelf
+* [x] PATCH /shelves/:shelfId/remove/:bookId
+  * Edit a shelf - remove book from shelf
 * [x] DELETE /shelves/:shelfId
   * Delete a shelf

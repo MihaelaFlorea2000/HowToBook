@@ -8,7 +8,23 @@ import AddBook from './pages/AddBook';
 import ShelvesList from './pages/ShelvesList';
 import Shelf from './pages/Shelf';
 import CreateShelf from './pages/CreateShelf';
+import EditBook from './pages/EditBook';
+import EditShelf from './pages/EditShelf';
 import { useOnClickOutside } from './hooks';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#0e0220'
+    },
+    secondary: {
+      main: '#ff2e63'
+    }
+  }
+});
+
 
 
 function App() {
@@ -22,19 +38,23 @@ function App() {
 
   return (
     <>
-    <Router>
-      <div ref={header}>
-        <Header isOpen={isOpen} setOpen={setOpen}/>
-      </div>
-      <Switch> 
-        <Route path='/' exact strict component={BooksList}/>
-        <Route path='/books/add' exact strict component={AddBook}/>
-        <Route path='/books/:bookId' exact strict component={Book}/>
-        <Route path='/shelves' exact strict component={ShelvesList}/>
-        <Route path='/shelves/add' exact strict component={CreateShelf} />
-        <Route path='/shelves/:shelfId' exact strict component={Shelf} />
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <div ref={header}>
+          <Header isOpen={isOpen} setOpen={setOpen}/>
+        </div>
+        <Switch> 
+          <Route path='/' exact strict component={BooksList}/>
+          <Route path='/books/add' exact strict component={AddBook}/>
+          <Route path='/books/:bookId' exact strict component={Book}/>
+          <Route path='/books/:bookId/edit' exact strict component={EditBook} />
+          <Route path='/shelves' exact strict component={ShelvesList}/>
+          <Route path='/shelves/add' exact strict component={CreateShelf} />
+          <Route path='/shelves/:shelfId' exact strict component={Shelf} />
+          <Route path='/shelves/:shelfId/edit' exact strict component={EditShelf} />
+        </Switch>
+      </Router>
+    </ThemeProvider>
     </>
   );
 }

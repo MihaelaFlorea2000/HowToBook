@@ -9,22 +9,20 @@ export default function DeleteButton(props) {
   }
 
   return (
-    <div className="add-btn">
+    <div className={props.text=== 'icon' ? 'delete-btn' : 'btn'}>
       {props.text === 'icon' ? 
         <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          id="button"
+          className="delete-btn"
+          size="small"
           onClick={handleClick}
         >
-          <DeleteIcon />
+          <DeleteIcon fontSize={props.fontSize}/>
         </Button> :
         <Button
           variant="contained"
           color="primary"
           size="large"
-          id="button"
+          classes={{ root: 'button' }}
           onClick={handleClick}
           startIcon={<DeleteIcon />}
         >

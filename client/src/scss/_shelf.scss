@@ -1,0 +1,80 @@
+.shelf {
+  position: relative;
+  text-align: center;
+
+  .overlay {
+    background-color: black;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: block;
+    height: 160px;
+    opacity: 0.6;
+    z-index: 1;
+
+    @include breakpoint-up(medium) {
+      height: 300px;
+    }
+
+    @include breakpoint-up(large) {
+      height: 350px;
+    }
+
+  }
+
+  &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    max-height: 160px;
+  
+    @include breakpoint-up(medium) {
+      max-height: 300px;
+    }
+
+    @include breakpoint-up(large) {
+      max-height: 350px;
+    }
+
+    img {
+      flex-shrink: 0;
+      min-width: 100%;
+      min-height: 100%;
+    }
+  }
+
+  .books__grid {
+    margin-bottom: 50px;
+  }
+
+  form {
+    padding: 15px;
+    border: 0;
+
+    @include breakpoint-up(medium) {
+      width: 80%;
+    }
+  }
+
+  &__addBook {
+    display: flex;
+    justify-items: space-between;
+    align-items: center;
+  }
+
+  select {
+    margin: 1rem 1rem 1rem 0;
+  }
+
+  label {
+    font-size: $font-small;
+
+    @include breakpoint-up(medium) {
+      font-size: $font-med;
+    }
+  }
+
+}

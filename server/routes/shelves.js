@@ -80,6 +80,27 @@ router.patch('/:shelfId/add/:bookId', async (req, res, next) => {
   }
 })
 
+// Remove book from shelf
+router.patch('/:shelfId/remove/:bookId', async (req, res, next) => {
+  try {
+    const shelf = await Shelf.findById(req.params.shelfId);
+
+    const index = shelf.books.indexOf(req.params.bookId);
+    console.log(index);
+    if (index > -1) {
+      shelf.books.splice(index, 1);
+    }
+
+    await shelf.save();
+    res.json({
+      message: 'Book removed from shelf!'
+    });
+  } catch (error) {
+    res.status(400);
+    next(error);
+  }
+})
+
 // Delete a shelf
 router.delete('/:shelfId', async (req, res, next) => {
   try {

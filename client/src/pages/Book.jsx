@@ -6,6 +6,9 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import ReadMore from '../components/ReadMore';
 import ConfirmDialog from '../components/ConfirmDialog';
+import formatDate from '../formatDate';
+import EditButton from '../components/EditButton';
+import { Link } from 'react-router-dom';
 
 export default function Book(props) {
 
@@ -14,21 +17,26 @@ export default function Book(props) {
 
   const [book, setBook] = useState([]);
   const [bookReads, setBookReads] = useState([]);
+  const [message, setMessage] = useState({
+    text: '',
+    style: ''
+  });
+
+  async function getBook() {
+
+    const res = await axios.get(`http://localhost:5000/books/${bookId}`);
+
+    setBook(res.data);
+
+    if (res.data.reads.length > 0) {
+      setBookReads(res.data.reads);
+    }
+
+  }
 
   useEffect(() => {
-
-    (async function getBooks() {
-
-      const res = await axios.get(`http://localhost:5000/books/${bookId}`);
-
-      setBook(res.data);
-
-      if (res.data.reads.length > 0) {
-        setBookReads(res.data.reads);
-      }
-      
-    })();
-  }, [bookId])
+    getBook();
+  }, [])
 
   // Read state drop-down
   const options = [
@@ -106,32 +114,28 @@ export default function Book(props) {
       review: read.review
     }
 
-    console.log(newRead);
+    if (newRead.dateStarted <= newRead.dateFinished) {
+      await axios.patch(`http://localhost:5000/books/${bookId}/read`, newRead);
 
-    await axios.patch(`http://localhost:5000/books/${bookId}/read`, newRead);
+      setRead({
+        dateStarted: '',
+        dateFinished: '',
+        rating: 0,
+        review: ''
+      })
 
-    setRead({
-      dateStarted: '',
-      dateFinished: '',
-      rating: 0,
-      review: ''
-    })
+      setShowForm(false);
 
-    setShowForm(false);
-
-    window.location = `/books/${bookId}`
+      // window.location = `/books/${bookId}`
+      getBook();
+    } else {
+      setMessage({
+        text: 'The day you started reading can\'t be after the day you finished!',
+        style: 'errorMessage'
+      });
+    }
   }
 
-  function formatDate(dateString){
-
-    const date = new Date(dateString);
-
-    const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
-    const month = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
-    const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
-
-    return `${month} ${day}, ${year}`
-  }
 
   // Delete this book 
   async function deleteBook(bookId) {
@@ -143,77 +147,82 @@ export default function Book(props) {
     <section className="book">
       <div className="blur" style={{ backgroundImage: `url(${book.cover})`}}></div>
       <div className="overlay"></div>
-      <img className="book__cover" src={book.cover} alt={book.title} />
-      
+    
       <div className="container">
-        <h1 className="book__title">{book.title}</h1>
-        <p className="book__series">{book.series}</p>
-        <h3 className="book__author">by {book.author}</h3>
-        <hr/>
-
-        <div className="book__status">
-          <h3 className="book__subtitle">Read Status</h3>
-          <Dropdown
-            options={options}
-            onChange={onChangeStatus}
-            value={book.readStatus}
-            placeholder="Select an option"
-          />
-
-          {showForm &&
-
-            <form onSubmit={onSubmit}>
-              <div className="book__form">
-                <label htmlFor="dateStarted">Date started:</label>
-                <input 
-                  type="date" 
-                  name="dateStarted" 
-                  value={read.dateStarted}
-                  onChange={onChangeDateStarted}
-                />
-              
-                <label htmlFor="dateFinished">Date finished:</label>
-                <input 
-                  type="date" 
-                  name="dateFinished"
-                  value={read.dateFinished}
-                  onChange={onChangeDateFinished}
-                />
-
-                <label htmlFor="rating">Rating:</label>
-                <StarRatings
-                  rating={read.rating}
-                  starRatedColor="#ff2e63"
-                  starHoverColor="#ff2e63"
-                  changeRating={onChangeRating}
-                  numberOfStars={5}
-                  name="rating"
-                  starDimension="29px"
-                  starSpacing="2px"
-                />
-
-                <label htmlFor="review">Review:</label>
-                <textarea
-                  value={read.review}
-                  onChange={onChangeReview}
-                  name="review"
-                  cols="30"
-                  rows="10"
-                  placeholder="How was this book?"
-                ></textarea>
-              </div>
-
-              <AddButton text="Review" />
-
-            </form>
-          }
+        <div className="book__header">
+          <div className="book__header__item">
+            <img className="book__cover" src={book.cover} alt={book.title} />
+          </div>
+          <div className="book__header__item">
+            <h1 className="book__title">{book.title}</h1>
+            <p className="book__series">{book.series}</p>
+            <h3 className="book__author">by {book.author}</h3>
+            <hr />
+            <div className="book__status">
+              <h3 className="book__subtitle">Read Status</h3>
+              <Dropdown
+                options={options}
+                onChange={onChangeStatus}
+                value={book.readStatus}
+                placeholder="Select an option"
+              />
+            </div>
+          </div>
         </div>
+        {showForm &&
 
+          <form onSubmit={onSubmit} noValidate>
+            <div className="book__form">
+              <label htmlFor="dateStarted">Date started:</label>
+              <input
+                type="date"
+                name="dateStarted"
+                value={read.dateStarted}
+                onChange={onChangeDateStarted}
+              />
+
+              <label htmlFor="dateFinished">Date finished:</label>
+              <input
+                type="date"
+                name="dateFinished"
+                value={read.dateFinished}
+                min={read.dateStarted}
+                onChange={onChangeDateFinished}
+              />
+
+              <label htmlFor="rating">Rating:</label>
+              <StarRatings
+                rating={read.rating}
+                starRatedColor="#ff2e63"
+                starHoverColor="#ff2e63"
+                changeRating={onChangeRating}
+                numberOfStars={5}
+                name="rating"
+                starDimension="29px"
+                starSpacing="2px"
+              />
+
+              <label htmlFor="review">Review:</label>
+              <textarea
+                value={read.review}
+                onChange={onChangeReview}
+                name="review"
+                cols="30"
+                rows="10"
+                placeholder="How was this book?"
+              ></textarea>
+            </div>
+
+            <AddButton text="Review" />
+            <p className={message.style}>{message.text}</p>
+          </form>
+        }
+      
         <hr />
 
         <div className="book__description">
           <h3 className="book__subtitle">Book Description</h3>
-          <ReadMore maxCharacterCount={300}>
+          <ReadMore maxCharacterCount={500}>
             {`${book.description}`}
           </ReadMore>
         </div>
@@ -224,42 +233,55 @@ export default function Book(props) {
 
           <div className="book__reviews">
             <h3 className="book__subtitle">Book Reviews</h3>
-            {bookReads.map((read) => {
-              return (
-                <div className="book__read" key={read._id}>
-                  <div className="book__read__date">
-                    <p>Started:</p>
-                    <p>{formatDate(read.dateStarted)}</p>
-                  </div>
-                  
-                  <div className="book__read__date">
-                    <p>Finished:</p>
-                    <p>{formatDate(read.dateStarted)}</p>
-                  </div>
+            <div className="book__reviews__grid">
+              {bookReads.map((read) => {
+                return (
+                  <div className="book__read" key={read._id}>
+                    <div className="book__read__date">
+                      <p>Started:</p>
+                      <p>{formatDate(read.dateStarted)}</p>
+                    </div>
+                    
+                    <div className="book__read__date">
+                      <p>Finished:</p>
+                      <p>{formatDate(read.dateFinished)}</p>
+                    </div>
 
-                  <div className="book__read__rating">
-                    <p>Rating:</p>
-                    <StarRatings
-                      rating={read.rating}
-                      starRatedColor="#ff2e63"
-                      starHoverColor="#ff2e63"
-                      numberOfStars={read.rating}
-                      starDimension="25px"
-                      starSpacing="2px"
-                    />
+                    <div className="book__read__rating">
+                      <p>Rating:</p>
+                      <StarRatings
+                        rating={read.rating}
+                        starRatedColor="#ff2e63"
+                        starHoverColor="#ff2e63"
+                        numberOfStars={read.rating}
+                        starDimension="25px"
+                        starSpacing="2px"
+                      />
+                    </div>
+                    <div className="book__read__review">
+                      <p>Review:</p>
+                      <ReadMore maxCharacterCount={300}>
+                        {`${read.review}`}
+                      </ReadMore>
+                    </div>
                   </div>
-                  <div className="book__read__review">
-                    <p>Review:</p>
-                    <ReadMore maxCharacterCount={300}>
-                      {`${read.review}`}
-                    </ReadMore>
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
         }
-        <ConfirmDialog onDelete={deleteBook} id={bookId} text="Book"/>
+
+        <div className="book__buttons">
+          <Link to={`/books/${bookId}/edit`}>
+            <EditButton text="Book" />
+          </Link>
+          <ConfirmDialog 
+            onDelete={deleteBook} 
+            id={bookId} 
+            text="Book" 
+            alertMessage={`Are you sure you want to permanently delete ${book.title} from your library? All ratings and reviews associated with this book witll be removed. This can't be undone.`}
+          />
+        </div>
 
       </div>
     </section>

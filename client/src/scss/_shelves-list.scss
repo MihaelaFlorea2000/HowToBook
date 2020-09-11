@@ -3,15 +3,15 @@
   background-color: $veryLightGray;
 }
 
-.shelf {
+.shelves {
 
   &__item {
     border: 1px solid $grayishBlue;
     background-color: $white;
     margin: 1.875rem; // 30px
     transition: all 200ms ease-in-out;
-    display: flex;
     height: 100px;
+    position: relative;
 
     &:hover {
       border: 1px solid $darkBlue;
@@ -22,6 +22,24 @@
       height: 200px;
     }
 
+    .delete-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      min-width: 32px;
+
+       @include breakpoint-up(medium) {
+         position: absolute;
+         bottom: 3px;
+         right: 3px;
+         min-width: 64px;
+       }
+    }
+  }
+
+  &__link {
+    display: flex;
+    height: 100%;
   }
 
   &__image{
@@ -35,14 +53,24 @@
       flex-shrink: 0;
       min-width: 100%;
       min-height: 100%;
+
+      &::before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        flex-shrink: 0;
+        min-width: 50%;
+        min-height: 100%;
+        background-image: url('https://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thescene.jpg,fl_progressive,g_face,h_450,q_80,w_800/v1590006383/thenewyorker_the-oddest-terms-used-for-antique-books-explained.jpg');
+        background-position: center;
+      }
     }
-    
   }
 
   &__info {
     text-align: center;
     width: 50%;
-    padding: 13px;
+    padding: 10px;
     position: relative;
     
 
@@ -53,8 +81,9 @@
   }
 
   &__number {
+    color: $grayishBlue;
     position: absolute;
-    bottom: 10px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     margin: 0;

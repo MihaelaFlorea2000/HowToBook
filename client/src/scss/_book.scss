@@ -2,6 +2,29 @@
   position: relative;
   text-align: center;
 
+  .container {
+    @include breakpoint-up(medium) {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
+  &__header {
+    @include breakpoint-up(large) {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: relative;
+    }
+    
+    &__item {
+      @include breakpoint-up(large) {
+        flex: 1;
+        margin: 0 30px;
+      }
+    }
+  }
+
   &__cover {
     width: 40%;
     height: auto;
@@ -9,9 +32,20 @@
     display: block;
     position: relative;
     padding: 20px 0;
+
+    @include breakpoint-up(large) {
+      width: 90%;
+      height: auto;
+      display: block;
+      transform: rotate(-5deg);
+      box-shadow: 0px 0px 10px 3px $hotPink;
+      padding: 0;
+      margin: 30px;
+    }
   }
 
   &__title {
+    margin-top: 20px;
 
     &::after {
       height: 0;
@@ -54,6 +88,7 @@
     textarea::placeholder {
       font-size: $font-small;
     }
+
   }
 
   &__description,
@@ -75,6 +110,16 @@
     }
   }
 
+   &__reviews {
+     &__grid {
+       @include breakpoint-up(medium) {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: space-between;
+       }
+     }
+   } 
+
   &__read {
     display: grid;
     border: 1px solid $grayishBlue;
@@ -85,6 +130,11 @@
     align-content: center;
     padding: 30px;
     margin: 1.875rem;
+
+    @include breakpoint-up(medium) { // 2 cols
+      flex: 1 0 46%;
+      margin: 0.625rem; // 10px
+    }
 
     p {
       margin: 0 0 2px 0;
@@ -115,34 +165,57 @@
     }
   }
 
+  &__buttons {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0;
+  }
+
   hr {
     border: 1px solid #ddd;
     margin: 2rem 0;
   }
-}
 
-.blur {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  filter: blur(5px);
-  position: absolute;
-  left: 0;
-  right: 0;
-  display: block;
-  height: 266px;
-  border: 5px solid $darkBlue;
-}
+  .blur {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(5px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: block;
+    height: 250px;
+    border: 5px solid $darkBlue;
 
-.overlay {
-  background-color: black;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  display: block;
-  height: 266px;
-  opacity: 0.6;
+    @include breakpoint-up(medium) {
+      height: 460px;
+    }
+
+    @include breakpoint-up(large) {
+      display: none;
+    }
+  }
+
+  .overlay {
+    background-color: black;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: block;
+    height: 250px;
+    opacity: 0.6;
+
+    @include breakpoint-up(medium) {
+      height: 460px;
+    }
+
+    @include breakpoint-up(large) {
+      display: none;
+    }
+
+  }
 }
 
 
