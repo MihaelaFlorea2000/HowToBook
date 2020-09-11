@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import StarRatings from 'react-star-ratings';
 import AddButton from '../components/AddButton';
 import Dropdown from 'react-dropdown';
@@ -9,13 +8,14 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import formatDate from '../formatDate';
 import EditButton from '../components/EditButton';
 import { Link } from 'react-router-dom';
+import { listBook, changeStatus, addRead, removeBook } from '../API';
 
 export default function Book(props) {
 
   // Book and book Id
   const bookId = props.match.params.bookId;
 
-  const [book, setBook] = useState([]);
+  const [book, setBook] = useState({});
   const [bookReads, setBookReads] = useState([]);
   const [message, setMessage] = useState({
     text: '',
@@ -24,12 +24,12 @@ export default function Book(props) {
 
   async function getBook() {
 
-    const res = await axios.get(`http://localhost:5000/books/${bookId}`);
+    const newBook = await listBook(bookId);
 
-    setBook(res.data);
+    setBook(newBook);
 
-    if (res.data.reads.length > 0) {
-      setBookReads(res.data.reads);
+    if (newBook.reads.length > 0) {
+      setBookReads(newBook.reads);
     }
 
   }
@@ -38,7 +38,7 @@ export default function Book(props) {
     getBook();
   }, [])
 
-  // Read state drop-down
+  // Read status drop-down
   const options = [
     {
       value: 'notRead',
@@ -55,14 +55,11 @@ export default function Book(props) {
   ];
 
   async function onChangeStatus(status) {
-
-    console.log(status.label);
-
     if (status.value === 'read') {
       setShowForm(true);
     } else {
       setShowForm(false);
-      await axios.patch(`http://localhost:5000/books/${bookId}/${status.value}`);
+      await changeStatus(bookId, status.value);
     }
   }
 
@@ -115,7 +112,7 @@ export default function Book(props) {
     }
 
     if (newRead.dateStarted <= newRead.dateFinished) {
-      await axios.patch(`http://localhost:5000/books/${bookId}/read`, newRead);
+      await addRead(bookId, newRead);
 
       setRead({
         dateStarted: '',
@@ -125,8 +122,6 @@ export default function Book(props) {
       })
 
       setShowForm(false);
-
-      // window.location = `/books/${bookId}`
       getBook();
     } else {
       setMessage({
@@ -136,11 +131,10 @@ export default function Book(props) {
     }
   }
 
-
   // Delete this book 
-  async function deleteBook(bookId) {
-    await axios.delete(`http://localhost:5000/books/${bookId}`);
-    window.location = '/'
+  async function deleteBook() {
+    await removeBook(bookId);
+    window.location = '/';
   }
 
   return (

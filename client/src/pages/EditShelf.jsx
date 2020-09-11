@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import EditButton from '../components/EditButton';
-import axios from 'axios';
 import shelfIcon from '../images/bookshelf.svg';
+import { editShelf, listShelf } from '../API';
 
 export default function EditShelf(props) {
 
   // Shelf and shelf Id
   const shelfId = props.match.params.shelfId;
 
-  const [shelf, setShelf] = useState([]);
+  const [shelf, setShelf] = useState({});
 
   const [newShelf, setNewShelf] = useState({
     name: '',
@@ -19,13 +19,13 @@ export default function EditShelf(props) {
 
     (async function getShelf() {
 
-      const res = await axios.get(`http://localhost:5000/shelves/${shelfId}`);
+      const resShelf = listShelf(shelfId);
 
-      setShelf(res.data);
+      setShelf(resShelf);
 
       const newShelf = {
-        name: res.data.name,
-        imageURL: res.data.imageURL
+        name: resShelf.name,
+        imageURL: resShelf.imageURL
       }
 
       setNewShelf(newShelf);
@@ -60,7 +60,7 @@ export default function EditShelf(props) {
       imageURL: newShelf.imageURL
     }
 
-    const res = await axios.patch(`http://localhost:5000/shelves/${shelfId}/`, editedShelf);
+    const res = await editShelf(shelfId, editedShelf);
 
     if (res.statusText === 'OK') {
       setMessage({

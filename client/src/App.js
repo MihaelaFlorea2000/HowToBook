@@ -13,7 +13,7 @@ import EditShelf from './pages/EditShelf';
 import { useOnClickOutside } from './hooks';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
-
+// Colors for the buttons
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -24,8 +24,6 @@ const theme = createMuiTheme({
     }
   }
 });
-
-
 
 function App() {
 

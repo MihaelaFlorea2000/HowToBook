@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import shelfIcon from '../images/bookshelf.svg';
 import AddButton from '../components/AddButton';
-import axios from 'axios';
+import { addShelf } from '../API';
 
 export default function CreateShelf() {
 
@@ -36,10 +36,7 @@ export default function CreateShelf() {
       imageURL: shelf.imageURL
     }
 
-    console.log(newShelf);
-
-    const res = await axios.post('http://localhost:5000/shelves/add', newShelf);
-    console.log(res);
+    const res = await addShelf(newShelf);
 
     if (res.statusText === 'OK') {
       setMessage({

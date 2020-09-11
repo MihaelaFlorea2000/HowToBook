@@ -86,7 +86,6 @@ router.patch('/:shelfId/remove/:bookId', async (req, res, next) => {
     const shelf = await Shelf.findById(req.params.shelfId);
 
     const index = shelf.books.indexOf(req.params.bookId);
-    console.log(index);
     if (index > -1) {
       shelf.books.splice(index, 1);
     }

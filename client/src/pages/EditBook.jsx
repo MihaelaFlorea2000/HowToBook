@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import bookIcon from '../images/book.svg';
 import EditButton from '../components/EditButton';
-import axios from 'axios';
+import { editBook, listBook } from '../API';
 
 export default function EditBook(props) {
 
   // Book and book Id
   const bookId = props.match.params.bookId;
 
-  const [book, setBook] = useState([]);
+  const [book, setBook] = useState({});
 
   const [newBook, setNewBook] = useState({
     title: '',
@@ -22,16 +22,16 @@ export default function EditBook(props) {
 
     (async function getBook() {
 
-      const res = await axios.get(`http://localhost:5000/books/${bookId}`);
+      const resBook = await listBook(bookId);
 
-      setBook(res.data);
+      setBook(resBook);
 
       const newBook = {
-        title: res.data.title,
-        author: res.data.author,
-        series: res.data.series,
-        description: res.data.description,
-        cover: res.data.cover
+        title: resBook.title,
+        author: resBook.author,
+        series: resBook.series,
+        description: resBook.description,
+        cover: resBook.cover
       }
 
       setNewBook(newBook);
@@ -90,7 +90,7 @@ export default function EditBook(props) {
       cover: newBook.cover
     }
 
-    const res = await axios.patch(`http://localhost:5000/books/${bookId}/`, editedBook);
+    const res = await editBook(bookId, editedBook);
 
     if (res.statusText === 'OK') {
       setMessage({

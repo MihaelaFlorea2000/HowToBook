@@ -26,6 +26,8 @@
   * Edit a book - change the initial info
 * [x] PATCH /books/:bookId/:readStatus
   * Edit a book - mark as read / currently reading and add reviews
+* [x] PATCH /books/:bookId/read/remove/:readId
+  * Remove a book review
 * [x] DELETE /books/:bookId
   * Delete a book
 

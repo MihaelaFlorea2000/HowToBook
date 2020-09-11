@@ -115,6 +115,35 @@ router.patch('/:bookId/:readStatus', async (req, res, next) => {
   }
 });
 
+
+// Delete a book read
+router.patch('/:bookId/read/remove/:readId', async (req, res, next) => {
+  try {
+    const book = await Book.findById(req.params.bookId);
+    const readId = req.params.readId;
+
+    const newReads = []
+
+    book.reads.forEach((read) => {
+      if (read._id != readId) {
+        newReads.push(read);
+      }
+    })
+
+    book.reads = newReads;
+
+    await book.save();
+
+    res.json({
+      message: 'Review deleted!'
+    });
+  } catch (error) {
+    res.status(400);
+    next(error);
+  }
+})
+
+
 // Delete a book
 router.delete('/:bookId', async (req, res, next) => {
   try {

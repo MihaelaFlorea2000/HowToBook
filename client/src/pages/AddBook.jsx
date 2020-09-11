@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import bookIcon from '../images/book.svg';
 import AddButton from '../components/AddButton';
-import axios from 'axios';
+import { addBook } from '../API';
 
 export default function AddBook() {
 
@@ -64,7 +64,7 @@ export default function AddBook() {
       cover: book.cover
     }
 
-    const res = await axios.post('http://localhost:5000/books/add', newBook);
+    const res = await addBook(newBook);
     
     if (res.statusText === 'OK') {
       setMessage({

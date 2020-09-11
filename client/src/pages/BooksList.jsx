@@ -1,28 +1,26 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ConfirmDialog from '../components/ConfirmDialog';
+import { listBooks, removeBook } from '../API';
 
 export default function BooksList() {
 
+  // Array of all books in the library
   const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    
-    (async function getBooks() {
-      
-      const res = await axios.get('http://localhost:5000/books');
-      
-      setBooks(res.data);
-      console.log(res.data);
+  async function getBooks() {
+    const newBooks = await listBooks();
+    setBooks(newBooks);
+  }
 
-    })();
+  useEffect(() => {  
+    getBooks();
   }, [])
 
-  // Delete book 
+  // Delete a book from the library
   async function deleteBook(bookId) {
-      await axios.delete(`http://localhost:5000/books/${bookId}`);
-      window.location='/'
+    await removeBook(bookId);
+    getBooks();
   }
 
   return (

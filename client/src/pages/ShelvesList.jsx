@@ -1,29 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; 
 import { Link } from 'react-router-dom';
 import ConfirmDialog from '../components/ConfirmDialog';
+import { listShelves, removeShelf } from '../API';
 
 export default function ShelvesList() {
 
   const [shelves, setShelves] = useState([]);
 
+  async function getShelves() {
+    const newShelves = await listShelves();
+    setShelves(newShelves);
+  }
+
   useEffect(() => {
-
-    (async function getShelves() {
-
-      const res = await axios.get('http://localhost:5000/shelves');
-      
-      setShelves(res.data);
-
-    })();
+    getShelves();
   }, [])
 
   // Delete shelf 
   async function deleteShelf(shelfId) {
-    await axios.delete(`http://localhost:5000/shelves/${shelfId}`);
-    window.location = '/shelves'
+    await removeShelf(shelfId);
+    getShelves();
   }
-
 
   return (
     <section className="shelves-list">

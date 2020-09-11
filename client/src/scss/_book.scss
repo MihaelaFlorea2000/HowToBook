@@ -2,6 +2,7 @@
   position: relative;
   text-align: center;
 
+  // General
   .container {
     @include breakpoint-up(medium) {
       padding-left: 3rem;
@@ -9,20 +10,53 @@
     }
   }
 
-  &__header {
+  &__subtitle {
+    text-transform: uppercase;
+    text-align: center;
+
+    &::after {
+      content: "";
+      width: 30%;
+      display: block;
+      height: 0.125rem; // 2px;
+      margin: 0.5rem auto;
+      background-color: $hotPink;
+    }
+  }
+
+  // Cover
+  .blur {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(5px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: block;
+    height: 15.625rem; // 250px;
+    border: 5px solid $darkBlue;
+
+    @include breakpoint-up(medium) {
+      height: 28.75rem; // 460px;
+    }
+
     @include breakpoint-up(large) {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      position: relative;
+      display: none;
     }
-    
-    &__item {
-      @include breakpoint-up(large) {
-        flex: 1;
-        margin: 0 30px;
-      }
+  }
+
+  .overlay {
+    height: 15.625rem; // 250px;
+
+    @include breakpoint-up(medium) {
+      height: 28.75rem; // 460px;
     }
+
+    @include breakpoint-up(large) {
+      display: none;
+    }
+
   }
 
   &__cover {
@@ -31,7 +65,7 @@
     margin: 0 auto;
     display: block;
     position: relative;
-    padding: 20px 0;
+    padding: 1.25rem 0; // 20px 0
 
     @include breakpoint-up(large) {
       width: 90%;
@@ -40,12 +74,30 @@
       transform: rotate(-5deg);
       box-shadow: 0px 0px 10px 3px $hotPink;
       padding: 0;
-      margin: 30px;
+      margin: 1.875rem; // 30px
+    }
+  }
+
+  // Header
+
+  &__header {
+    @include breakpoint-up(large) {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: relative;
+    }
+
+    &__item {
+      @include breakpoint-up(large) {
+        flex: 1;
+        margin: 0 1.875rem; // 30px
+      }
     }
   }
 
   &__title {
-    margin-top: 20px;
+    margin-top: 1.25rem; // 20px
 
     &::after {
       height: 0;
@@ -61,18 +113,24 @@
     color: $darkBlue;
   }
 
+  &__description,
+  &__status {
+    text-align: left;
+  }
+
+  // Read Status Form
   &__form {
     display: grid;
     grid-template-columns: 90px auto;
-    grid-column-gap: 5px;
-    grid-row-gap: 10px;
+    grid-column-gap: 0.3125rem; // 5px;
+    grid-row-gap: 0.625rem; // 10px;
     justify-content: center;
     align-content: center;
-    height: 500px;
-    
+    height: 31.25rem; // 500px
+
 
     input[type="text"] {
-      padding: 5px;
+      padding: 0.3125rem; // 5px;
     }
 
     label {
@@ -91,45 +149,27 @@
 
   }
 
-  &__description,
-  &__status {
-    text-align: left;
-  }
-
-  &__subtitle {
-    text-transform: uppercase;
-    text-align: center;
-
-    &::after {
-      content: "";
-      width: 30%;
-      display: block;
-      height: 2px;
-      margin: 0.5rem auto;
-      background-color: $hotPink;
+  // Book reviews
+  &__reviews {
+    &__grid {
+      @include breakpoint-up(medium) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
     }
-  }
-
-   &__reviews {
-     &__grid {
-       @include breakpoint-up(medium) {
-         display: flex;
-         flex-wrap: wrap;
-         justify-content: space-between;
-       }
-     }
-   } 
+  } 
 
   &__read {
     display: grid;
     border: 1px solid $grayishBlue;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 5px;
-    grid-row-gap: 10px;
+    grid-column-gap: 0.3125rem; // 5px;
+    grid-row-gap: 0.625rem; // 10px;
     justify-content: center;
     align-content: center;
-    padding: 30px;
-    margin: 1.875rem;
+    padding: 1.875rem; // 30px;
+    margin: 1.875rem; // 30px;
 
     @include breakpoint-up(medium) { // 2 cols
       flex: 1 0 46%;
@@ -137,12 +177,12 @@
     }
 
     p {
-      margin: 0 0 2px 0;
+      margin: 0 0 0.125rem 0; // 0 0 2px 0;
     }
 
     &__date {
       p:nth-child(2) {
-        font-size: 14px;
+        font-size: $font-small;
         color: $darkBlue;
         margin-top: 0;
       }
@@ -152,7 +192,7 @@
       grid-column: span 2;
       border-top: 1px solid $hotPink;
       border-bottom: 1px solid $hotPink;
-      padding: 20px;
+      padding: 1.25rem; // 20px;
     }
 
     &__review {
@@ -165,62 +205,10 @@
     }
   }
 
+  // Edit and Delete Buttons
   &__buttons {
     display: flex;
     justify-content: space-around;
-    margin: 30px 0;
+    margin: 1.875rem 0; // 30px 0;
   }
-
-  hr {
-    border: 1px solid #ddd;
-    margin: 2rem 0;
-  }
-
-  .blur {
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    filter: blur(5px);
-    position: absolute;
-    left: 0;
-    right: 0;
-    display: block;
-    height: 250px;
-    border: 5px solid $darkBlue;
-
-    @include breakpoint-up(medium) {
-      height: 460px;
-    }
-
-    @include breakpoint-up(large) {
-      display: none;
-    }
-  }
-
-  .overlay {
-    background-color: black;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    display: block;
-    height: 250px;
-    opacity: 0.6;
-
-    @include breakpoint-up(medium) {
-      height: 460px;
-    }
-
-    @include breakpoint-up(large) {
-      display: none;
-    }
-
-  }
-}
-
-
-.form-group {
-  display: flex;
-  align-items: center;
-  justify-content: stretch;
 }

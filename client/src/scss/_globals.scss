@@ -1,3 +1,5 @@
+// Resets
+
 html {
   font-size: 100%;
   box-sizing: border-box;
@@ -18,6 +20,7 @@ body {
 }
 
 // Text
+
 h1, h2, h3 {
   margin: 0;
   font-family: 'Alice', serif;
@@ -33,7 +36,7 @@ h1 {
     content: "";
     width: 100%;
     display: block;
-    height: 3px;
+    height: 0.1875rem; // 3px;
     margin: 1.5rem 0;
     background-color: $darkBlue;
   }
@@ -53,15 +56,15 @@ h2 {
 }
 
 h3 {
-  font-size: 16px;
+  font-size: 1rem;
   margin-bottom: 1.25rem;
 
   @include breakpoint-up(medium) {
-    font-size: 25px;
+    font-size: 1.5625rem; // 25px;
   }
 
   @include breakpoint-up(large) {
-    font-size: 30px;
+    font-size: 1.875rem; // 30px;
   }
 }
 
@@ -88,7 +91,15 @@ p {
   font-weight: 400;
 }
 
+// Lines
+
+hr {
+  border: 1px solid #ddd;
+  margin: 2rem 0;
+}
+
 // Links
+
 a, a:visited, a:hover {
   text-decoration: none;
 }
@@ -107,7 +118,7 @@ form {
   padding: 30px;
   margin: 1.5rem auto;
   border: 5px solid $hotPink;
-  border-radius: 10px;
+  border-radius: 0.625rem; // 10px;
 
   @include breakpoint-up(medium) {
     width: 60%;
@@ -123,10 +134,10 @@ input[type=date],
 select {
   width: 100%;
   border: 2px solid $grayishBlue;
-  border-radius: 4px;
-  margin: 10px 0 20px 0;
+  border-radius: 0.25rem; // 4px;
+  margin: 0.625rem 0 1.25rem 0 ; // 10px 0 20px 0;
   outline: none;
-  padding: 8px;
+  padding: 0.5rem; // 8px;
   transition: all 200ms ease-in-out;
   font-family: 'Open Sans', sans-serif;
   background-color: $white;
@@ -136,7 +147,7 @@ input[type=text]:focus,
 textarea:focus,
 input[type=date]:focus,
 select:focus {
-  box-shadow: 0 0 8px 0 $grayishBlue;
+  box-shadow: 0 0 0.5rem 0 $grayishBlue;
 }
 
 input::placeholder, textarea::placeholder {
@@ -171,7 +182,7 @@ label {
   margin: 0 auto 1.5rem auto;
 
   @include breakpoint-up(medium) {
-    width: 150px;
+    width: 9.375rem; // 150px;
   }
 }
 
@@ -212,5 +223,17 @@ label {
   @include breakpoint-down(medium) {
     display: none;
   }
+}
+
+// Overlays 
+.overlay {
+  background-color: black;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: block;
+  height: 15.625rem; // 250px;
+  opacity: 0.6;
 }
 
