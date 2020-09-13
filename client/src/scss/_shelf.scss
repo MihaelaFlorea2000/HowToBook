@@ -52,13 +52,19 @@
   }
 
   &__addBook {
-    display: flex;
-    justify-items: space-between;
-    align-items: center;
+
+    @include breakpoint-up(medium) {
+      display: flex;
+      justify-items: space-between;
+      align-items: center;
+    }
   }
 
-  select {
+  .dropdown {
     margin: 1rem 1rem 1rem 0;
+    width: 100%;
+    outline: none;
+    text-align: left;
   }
 
   label {

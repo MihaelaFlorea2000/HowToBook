@@ -91,6 +91,7 @@ export default function Shelf(props) {
           <label htmlFor="addBook">Add Book to Shelf:</label>
           <div className="shelf__addBook">
             <Dropdown
+              className="dropdown"
               options={options}
               onChange={onChangeAddBookId}
               value={addBookId}
