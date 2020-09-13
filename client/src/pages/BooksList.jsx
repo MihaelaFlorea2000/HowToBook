@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import ConfirmDialog from '../components/ConfirmDialog';
-import { listBooks, removeBook } from '../API';
+import { listBooks, removeBook, listShelves, removeFromShelf } from '../API';
 import SearchIcon from '@material-ui/icons/Search';
 
 export default function BooksList() {
@@ -21,6 +21,13 @@ export default function BooksList() {
   // Delete a book from the library
   async function deleteBook(bookId) {
     await removeBook(bookId);
+
+    const newShelves = await listShelves();
+    newShelves.forEach(async (shelf) => {
+      if (shelf.books.includes(bookId)) {
+        await removeFromShelf(shelf._id, bookId);
+      }
+    })
     getBooks();
   }
 

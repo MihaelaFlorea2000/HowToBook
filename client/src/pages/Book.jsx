@@ -8,7 +8,7 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import formatDate from '../formatDate';
 import EditButton from '../components/EditButton';
 import { Link } from 'react-router-dom';
-import { listBook, changeStatus, addRead, removeBook, removeRead } from '../API';
+import { listBook, changeStatus, addRead, removeBook, removeRead, removeFromShelf, listShelves } from '../API';
 import CloseIcon from '@material-ui/icons/Close';
 import { sortReadsByDateFinished } from '../sortArray';
 
@@ -136,6 +136,13 @@ export default function Book(props) {
   // Delete this book 
   async function deleteBook() {
     await removeBook(bookId);
+
+    const newShelves = await listShelves();
+    newShelves.forEach(async (shelf) => {
+      if (shelf.books.includes(bookId)) {
+        await removeFromShelf(shelf._id, bookId);
+      }
+    })
     window.location = '/';
   }
 
