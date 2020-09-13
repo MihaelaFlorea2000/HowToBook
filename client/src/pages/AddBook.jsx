@@ -64,27 +64,42 @@ export default function AddBook() {
       cover: book.cover
     }
 
-    const res = await addBook(newBook);
-    
-    if (res.statusText === 'OK') {
-      setMessage({
-        text: `Book "${newBook.title}" added!`,
-        style: 'okMessage'
-      });
-    } else {
-      setMessage({
-        text: `Book "${newBook.title}" was not added! Try again 😿`,
-        style: 'errorMessage'
-      });
-    }
+    try {
+      const res = await addBook(newBook);
 
-    setBook({
-      title: '',
-      author: '',
-      series: '',
-      description: '',
-      cover: ''
-    });
+      if (res.statusText === 'OK') {
+        setMessage({
+          text: `Book "${newBook.title}" added!`,
+          style: 'okMessage'
+        });
+      } else {
+        setMessage({
+          text: `Book "${newBook.title}" was not added! Try again 😿`,
+          style: 'errorMessage'
+        });
+      }
+
+      setBook({
+        title: '',
+        author: '',
+        series: '',
+        description: '',
+        cover: ''
+      });
+
+    } catch (error) {
+      if (error.response.status === 400) {
+        setMessage({
+          text: `Book "${newBook.title}" already exists. Can't have duplicate books`,
+          style: 'errorMessage'
+        });
+      } else {
+        setMessage({
+          text: `Book "${newBook.title}" was not added! Try again later 😿`,
+          style: 'errorMessage'
+        });
+      }
+    }
   }
 
   return (

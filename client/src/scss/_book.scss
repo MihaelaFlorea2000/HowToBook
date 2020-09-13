@@ -170,6 +170,7 @@
     align-content: center;
     padding: 1.875rem; // 30px;
     margin: 1.875rem; // 30px;
+    position: relative;
 
     @include breakpoint-up(medium) { // 2 cols
       flex: 1 0 46%;
@@ -210,5 +211,17 @@
     display: flex;
     justify-content: space-around;
     margin: 1.875rem 0; // 30px 0;
+  }
+}
+
+.close-icon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+  transition: color 200ms ease-in-out !important;
+
+  &:hover {
+    color: $darkBlue;
   }
 }

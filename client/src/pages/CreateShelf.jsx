@@ -36,24 +36,39 @@ export default function CreateShelf() {
       imageURL: shelf.imageURL
     }
 
-    const res = await addShelf(newShelf);
+    try {
+      const res = await addShelf(newShelf);
 
-    if (res.statusText === 'OK') {
-      setMessage({
-        text: `Shelf "${newShelf.name}" added!`,
-        style: 'okMessage'
-      });
-    } else {
-      setMessage({
-        text: `Shelf "${newShelf.name}" was not added! Try again 😿`,
-        style: 'errorMessage'
-      });
+      if (res.statusText === 'OK') {
+        setMessage({
+          text: `Shelf "${newShelf.name}" added!`,
+          style: 'okMessage'
+        });
+      } else {
+        setMessage({
+          text: `Shelf "${newShelf.name}" was not added! Try again 😿`,
+          style: 'errorMessage'
+        });
+      }
+
+      setShelf({
+        name: '',
+        imageURL: ''
+      })
+
+    } catch (error) {
+      if (error.response.status === 400) { 
+        setMessage({
+          text: `Shelf "${newShelf.name}" already exists! Can't have duplicate shelves.`,
+          style: 'errorMessage'
+        });
+      } else {
+        setMessage({
+          text: `Shelf "${newShelf.name}" was not added! Try again 😿`,
+          style: 'errorMessage'
+        });
+      }
     }
-
-    setShelf({
-      name: '',
-      imageURL: ''
-    })
   }
 
   return (

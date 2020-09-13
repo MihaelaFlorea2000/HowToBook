@@ -13,6 +13,9 @@ export async function listBooks() {
 // Get a specific book
 export async function listBook(bookId) {
   const res = await axios.get(`${API_URL}/books/${bookId}`);
+  if (res.data.reads.length === 0) {
+    res.data.readStatus = 'notRead'
+  }
   return res.data;
 }
 
@@ -66,6 +69,11 @@ export async function addShelf(shelf) {
 export async function editShelf(shelfId, editedShelf) {
   const res = await axios.patch(`${API_URL}/shelves/${shelfId}/`, editedShelf);
   return res;
+}
+
+// Delete a review 
+export async function removeRead(bookId, readId) {
+  await axios.patch(`${API_URL}/books/${bookId}/read/remove/${readId}`);
 }
 
 // Delete a shelf 

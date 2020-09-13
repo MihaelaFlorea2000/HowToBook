@@ -8,7 +8,9 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import formatDate from '../formatDate';
 import EditButton from '../components/EditButton';
 import { Link } from 'react-router-dom';
-import { listBook, changeStatus, addRead, removeBook } from '../API';
+import { listBook, changeStatus, addRead, removeBook, removeRead } from '../API';
+import CloseIcon from '@material-ui/icons/Close';
+import { sortReadsByDateFinished } from '../sortArray';
 
 export default function Book(props) {
 
@@ -28,9 +30,9 @@ export default function Book(props) {
 
     setBook(newBook);
 
-    if (newBook.reads.length > 0) {
-      setBookReads(newBook.reads);
-    }
+    sortReadsByDateFinished(newBook.reads);
+
+    setBookReads(newBook.reads);
 
   }
 
@@ -137,6 +139,15 @@ export default function Book(props) {
     window.location = '/';
   }
 
+
+  // Delete this review 
+  const [readId, setReadId] = useState('');
+
+  async function deleteReview() {
+    await removeRead(bookId, readId);
+    getBook();
+  }
+
   return (
     <section className="book">
       <div className="blur" style={{ backgroundImage: `url(${book.cover})`}}></div>
@@ -226,11 +237,17 @@ export default function Book(props) {
         {bookReads.length > 0 && 
 
           <div className="book__reviews">
-            <h3 className="book__subtitle">Book Reviews</h3>
+          <h3 className="book__subtitle">Book Reviews</h3>
             <div className="book__reviews__grid">
               {bookReads.map((read) => {
                 return (
                   <div className="book__read" key={read._id}>
+                    <CloseIcon 
+                      className="close-icon" 
+                      fontSize="small"
+                      onMouseOver={() => {setReadId(read._id)}}
+                      onClick={deleteReview}
+                    />
                     <div className="book__read__date">
                       <p>Started:</p>
                       <p>{formatDate(read.dateStarted)}</p>

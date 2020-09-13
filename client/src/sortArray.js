@@ -13,3 +13,11 @@ export function sortShelvesByName(array) {
     return 0;
   });
 }
+
+export function sortReadsByDateFinished(array) {
+  array.sort(function (a, b) {
+    if (a.dateStarted < b.dateStarted) return -1;
+    if (a.dateStarted > b.dateStarted) return 1;
+    return 0;
+  });
+}
