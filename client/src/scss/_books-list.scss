@@ -1,5 +1,31 @@
 .books-list {
   background-color: $veryLightGray;
+
+  input[type="text"] {
+    background-color: transparent;
+    background-image: url('../images/search_2.svg');
+    background-repeat: no-repeat;
+    background-position: 95% center;
+    background-size: 5%;
+    border: 2px solid $hotPink;
+    border-radius: 50px;
+    padding: 11px;
+
+
+    @include breakpoint-up(medium) {
+      background-size: 3%;
+      background-position: 97% center;
+    }
+
+    @include breakpoint-up(large) {
+      background-size: 2%;
+      background-position: 98% center;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0.5rem 0 $hotPink;
+    }
+  }
 }
 
 .books {

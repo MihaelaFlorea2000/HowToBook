@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { listBooks, removeBook } from '../API';
+import SearchIcon from '@material-ui/icons/Search';
 
 export default function BooksList() {
 
@@ -23,12 +24,30 @@ export default function BooksList() {
     getBooks();
   }
 
+  // Search for books
+  const [search, setSearch] = useState('');
+
+  function updateSearch(e) {
+    setSearch(e.target.value);
+  }
+
+  let filteredBooks = books.filter((book) => {
+    return (book.title.toLowerCase().indexOf(search.toLowerCase()) !== -1) || 
+      (book.author.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+  });
+
   return (
     <section className="books-list">
       <div className="container">
         <h1>My Books</h1>
+        <input 
+          className="books__search" 
+          type="text" 
+          placeholder="Search books"
+          onChange={updateSearch}
+        />
         <div className="books__grid">
-          {books.map((book) => {
+          {filteredBooks.map((book) => {
             return (
               <div key={book._id} className="books__item">
                 <Link to={`/books/${book._id}`}>
